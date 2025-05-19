@@ -47,8 +47,6 @@ const ProductCard: React.FC<ProductCardProps> = ({ product, onBuyNow }) => {
           height={300}
           className={styles.productImage}
         />
-
-        {/* Ícone de favorito no canto superior direito */}
         <button onClick={toggleFavorite} className={styles.favoriteIcon}>
           {isFavorite ? (
             <FaHeart size={22} color="red" />
@@ -77,10 +75,3 @@ const ProductCard: React.FC<ProductCardProps> = ({ product, onBuyNow }) => {
 };
 
 export default ProductCard;
-
-// 01-Estruturas e Tratamento -
-// 02-Funções e Métodos -
-// 03-Arrays -
-// 05-Formulários e Eventos -
-// 06-Hooks -
-// 07-Props e Router -

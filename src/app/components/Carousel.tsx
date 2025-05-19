@@ -1,25 +1,28 @@
+// app/components/Carousel.tsx
+
 "use client";
 
 import React, { useEffect, useState } from "react";
+import Image from "next/image";
 import styles from "./Carousel.module.css";
-import type { Product } from "@/app/types/product"; // ✅ Importação correta do tipo
+import type { Product } from "@/app/types/product";
+import { getProducts } from "@/app/lib/api/products";
 
 const Carousel: React.FC = () => {
   const [products, setProducts] = useState<Product[]>([]);
   const [currentIndex, setCurrentIndex] = useState(0);
 
   useEffect(() => {
-    const fetchProducts = async () => {
+    const fetchData = async () => {
       try {
-        const res = await fetch("/api/products");
-        const data = await res.json();
+        const data = await getProducts();
         setProducts(data);
       } catch (error) {
         console.error("Erro ao buscar produtos:", error);
       }
     };
 
-    fetchProducts();
+    fetchData();
   }, []);
 
   const nextSlide = () => {
@@ -32,15 +35,20 @@ const Carousel: React.FC = () => {
 
   if (products.length === 0) return <div>Carregando...</div>;
 
+  const currentProduct = products[currentIndex];
+
   return (
     <div className={styles.carouselContainer}>
       <div className={styles.imageWrapper}>
-        <img
-          src={products[currentIndex].imageUrl}
-          alt={products[currentIndex].name}
+        <Image
+          src={currentProduct.imageUrl}
+          alt={currentProduct.name}
+          width={500}
+          height={300}
           className={styles.image}
+          priority
         />
-        <div className={styles.caption}>{products[currentIndex].name}</div>
+        <div className={styles.caption}>{currentProduct.name}</div>
       </div>
       <button onClick={prevSlide} className={styles.navButtonLeft}>
         &#8592;
